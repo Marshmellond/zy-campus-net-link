@@ -26,6 +26,8 @@
 
 前往 [Releases](https://github.com/Marshmellond/zy-campus-net-link/releases) 页面下载最新版本 `zy-campus-net-link.exe`。
 
+> 仅提供 Windows 版本，Linux / macOS 用户请参考下方 [开发](#-开发) 自行编译。
+
 ## 🚀 使用
 
 1. 从 [Releases](https://github.com/Marshmellond/zy-campus-net-link/releases) 下载 `zy-campus-net-link.exe`
@@ -36,13 +38,14 @@
 ## 📋 手动菜单
 
 ```
-╭──────── 张家界学院校园网自动登录工具 ────────╮
-│                                              │
-│   [1] 连接校园网                              │
-│   [2] 查看/修改账号信息                       │
-│   [3] 退出                                    │
-│                                              │
-╰──────────────────────────────────────────────╯
+╭──────────────────────────────────────╮
+│  张家界学院校园网自动登录工具        │
+│                                      │
+│  [1] 连接校园网                      │
+│  [2] 查看/修改账号信息               │
+│  [3] 退出                            │
+│                                      │
+╰──────────────────────────────────────╯
 ```
 
 | 选项 | 说明 |
@@ -65,7 +68,7 @@
 
 ```bash
 # 安装依赖
-pip install requests rich fake-useragent
+uv sync
 
 # 运行
 python src/main.py
