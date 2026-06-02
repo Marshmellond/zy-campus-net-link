@@ -5,6 +5,7 @@
 
 import os
 import sys
+import time
 
 from rich.console import Console
 from rich.panel import Panel
@@ -16,12 +17,33 @@ import network
 console = Console()
 PANEL_WIDTH = 56
 
+MAX_RETRIES = 6
+RETRY_INTERVAL = 10
+
 
 def _clear_screen() -> None:
     if sys.platform == "win32":
         os.system("cls")
     else:
         os.system("clear")
+
+
+def _key_pressed() -> bool:
+    """非阻塞检测是否有按键输入"""
+    if sys.platform == "win32":
+        import msvcrt
+        return msvcrt.kbhit()
+    else:
+        import select
+        return select.select([sys.stdin], [], [], 0)[0] != []
+
+
+def _flush_input() -> None:
+    """清空输入缓冲区"""
+    if sys.platform == "win32":
+        import msvcrt
+        while msvcrt.kbhit():
+            msvcrt.getch()
 
 
 def _build_menu_panel() -> Panel:
@@ -136,13 +158,88 @@ def _handle_config() -> None:
                 console.input("[dim]按回车键继续...[/dim]")
             else:
                 config.set_account(username, password)
-                # 保存成功后回到循环顶部,刷新账号信息页面
 
         elif choice == "2":
             break
 
 
+def _auto_login() -> None:
+    """自动登录模式：重试 6 次，每次间隔 10 秒，中途可按回车切手动模式"""
+    account = config.get_account()
+
+    _clear_screen()
+
+    header = Text()
+    header.append("正在自动连接校园网...\n", style="bold yellow")
+    header.append("按 ", style="dim")
+    header.append("回车键", style="bold white")
+    header.append(" 切换到手动操作", style="dim")
+
+    console.print(
+        Panel(header, title="自动模式", border_style="yellow", width=PANEL_WIDTH, padding=(1, 3))
+    )
+
+    for attempt in range(1, MAX_RETRIES + 1):
+        console.print(f"\n[bold yellow][{attempt}/{MAX_RETRIES}][/bold yellow] 连接中...", end="")
+
+        result = network.login(account["username"], account["password"])
+
+        if result["ok"]:
+            console.print(f"\n[bold green]✓ {result['message']}[/bold green]")
+            console.print()
+            console.print(
+                Panel(
+                    "[bold green]连接成功！3 秒后自动关闭...[/bold green]",
+                    border_style="green",
+                    width=PANEL_WIDTH,
+                )
+            )
+
+            # 等 3 秒，同时检测回车
+            _flush_input()
+            for _ in range(30):
+                if _key_pressed():
+                    _flush_input()
+                    break
+                time.sleep(0.1)
+            sys.exit(0)
+
+        console.print(f"\r[bold red][{attempt}/{MAX_RETRIES}][/bold red] ✗ 连接失败: {result['message']}")
+
+        if attempt == MAX_RETRIES:
+            break
+
+        # 等 10 秒，每 0.5 秒检查一次是否按了回车
+        for _ in range(RETRY_INTERVAL * 2):
+            if _key_pressed():
+                _flush_input()
+                console.print()
+                console.print()
+                console.input("[dim]已切换到手动模式，按回车键进入菜单...[/dim]")
+                return
+            time.sleep(0.5)
+
+    # 6 次全部失败
+    console.print()
+    console.print()
+    console.print(
+        Panel(
+            "[bold red]6 次重试均失败，请检查账号密码是否正确。[/bold red]",
+            border_style="red",
+            width=PANEL_WIDTH,
+        )
+    )
+    console.print()
+    console.input("[dim]按回车键进入主菜单...[/dim]")
+
+
 def main() -> None:
+    account = config.get_account()
+
+    # 首次使用（没有账号）→ 直接进手动菜单
+    if account["username"] and account["password"]:
+        _auto_login()
+
     while True:
         _clear_screen()
         console.print(_build_menu_panel())
