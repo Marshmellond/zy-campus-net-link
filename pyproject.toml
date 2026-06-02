@@ -5,6 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "fake-useragent>=2.2.0",
     "pyinstaller>=6.20.0",
     "requests>=2.34.2",
     "rich>=15.0.0",

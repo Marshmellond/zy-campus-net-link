@@ -66,12 +66,12 @@ def _handle_login() -> None:
         )
     )
 
-    success = network.login(account["username"], account["password"])
+    result = network.login(account["username"], account["password"])
 
-    if success:
+    if result["ok"]:
         console.print(
             Panel(
-                "[bold green]✓ 连接成功！[/bold green]",
+                f"[bold green]✓ {result['message']}[/bold green]",
                 title="连接结果",
                 border_style="green",
                 width=PANEL_WIDTH,
@@ -81,7 +81,7 @@ def _handle_login() -> None:
     else:
         console.print(
             Panel(
-                "[bold red]✗ 连接失败，请检查账号密码或网络状况。[/bold red]",
+                f"[bold red]✗ 连接失败: {result['message']}[/bold red]",
                 title="连接结果",
                 border_style="red",
                 width=PANEL_WIDTH,
