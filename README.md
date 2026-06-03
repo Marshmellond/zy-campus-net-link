@@ -9,9 +9,9 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/platform-Windows-blue" alt="platform">
+  <img src="https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-blue" alt="platform">
   <img src="https://img.shields.io/badge/license-MIT-green" alt="license">
-  <img src="https://img.shields.io/github/v/release/Marshmellond/zy-campus-net-link" alt="release">
+  <img src="https://img.shields.io/github/v/tag/Marshmellond/zy-campus-net-link" alt="version">
 </p>
 
 ---
