@@ -22,6 +22,10 @@
 - 🖐️ **手动模式** — 自动模式中途按回车即可切换到手动菜单
 - ⚙️ **账号管理** — 交互式查看和修改账号密码，保存即用
 
+<p align="center">
+  <img src="resources/auto-connect.png" alt="自动连接" width="600">
+</p>
+
 ## 📥 下载
 
 前往 [Releases](https://github.com/Marshmellond/zy-campus-net-link/releases) 页面下载最新版本 `zy-campus-net-link.exe`。
@@ -37,16 +41,9 @@
 
 ## 📋 手动菜单
 
-```
-╭──────────────────────────────────────╮
-│  张家界学院校园网自动登录工具        │
-│                                      │
-│  [1] 连接校园网                      │
-│  [2] 查看/修改账号信息               │
-│  [3] 退出                            │
-│                                      │
-╰──────────────────────────────────────╯
-```
+<p align="center">
+  <img src="resources/home.png" alt="手动菜单" width="600">
+</p>
 
 | 选项 | 说明 |
 |------|------|
