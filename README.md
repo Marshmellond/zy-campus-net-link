@@ -29,17 +29,11 @@
 
 ## 📥 下载
 
-<p align="center">
-  <a href="https://github.com/Marshmellond/zy-campus-net-link/releases">
-    <img src="https://img.shields.io/badge/下载-最新版本-blue?style=for-the-badge" alt="下载">
-  </a>
-</p>
+前往 [Releases](https://github.com/Marshmellond/zy-campus-net-link/releases) 下载最新 `zy-campus-net-link.exe`，双击即可使用。
 
 > 仅提供 Windows 版，Linux / macOS 请参考 [开发](#-开发) 自行编译。
 
-## 🚀 使用
-
-首次使用时进入菜单设置学号和密码，之后双击 `zy-campus-net-link.exe` 即可自动连接。
+首次使用会进入手动菜单，设置学号和密码后再次双击即可自动连接。
 
 <p align="center">
   <img src="resources/home.png" alt="主菜单" width="600">
